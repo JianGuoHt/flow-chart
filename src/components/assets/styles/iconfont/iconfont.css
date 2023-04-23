@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4029575 */
+  src: url('iconfont.woff2?t=1682046212336') format('woff2'),
+       url('iconfont.woff?t=1682046212336') format('woff'),
+       url('iconfont.ttf?t=1682046212336') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-zhixian:before {
+  content: "\e602";
+}
+
+.icon-polyline:before {
+  content: "\e6bb";
+}
+
+.icon-jurassic_curve:before {
+  content: "\e694";
+}
+

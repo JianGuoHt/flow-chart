@@ -1,0 +1,30 @@
+{
+  "id": "4029575",
+  "name": "flow-chart",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "17521049",
+      "name": "直线",
+      "font_class": "zhixian",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "26525861",
+      "name": "线段",
+      "font_class": "polyline",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "10592969",
+      "name": "曲线-图形对象_jurassic",
+      "font_class": "jurassic_curve",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    }
+  ]
+}
