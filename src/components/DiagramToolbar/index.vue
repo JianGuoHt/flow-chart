@@ -1,21 +1,36 @@
 <template>
   <div class="diagram__toolbar" :style="toolbarStyle">
+    <Logo />
     <div class="tool-list">
-      <SelectionSelect />
-      <LineType />
-      <ArrowType />
+      <div class="flex">
+        <FileMore />
+        <Save />
+      </div>
+      <div class="flex">
+        <SelectionSelect />
+        <LineType />
+        <LineWidth />
+        <ArrowType />
+        <MiniMap />
+      </div>
+      <div class="flex"></div>
     </div>
   </div>
 </template>
 
 <script>
 import { headerHeight } from "../config";
+import Logo from "./Logo.vue";
 import ArrowType from "./ArrowType.vue";
 import LineType from "./LineType.vue";
+import LineWidth from "./LineWidth.vue";
+import MiniMap from "./MiniMap.vue";
 import SelectionSelect from "./SelectionSelect.vue";
+import Save from "./Save.vue";
+import FileMore from "./FileMore.vue";
 
 export default {
-  components: { LineType, SelectionSelect, ArrowType },
+  components: { Logo, LineType, SelectionSelect, ArrowType, MiniMap, LineWidth, Save, FileMore },
 
   data() {
     return {};
@@ -37,12 +52,19 @@ export default {
   z-index: 9;
   background-color: #ffffff;
   box-shadow: 0 2px 4px #dad7d7;
+  display: flex;
+
+  .flex {
+    display: flex;
+  }
 }
 
 .tool-list {
+  flex: 1;
   display: flex;
   height: 100%;
-  justify-content: center;
+  // justify-content: center;
+  justify-content: space-between;
 
   ::v-deep(.tool-item) {
     cursor: pointer;

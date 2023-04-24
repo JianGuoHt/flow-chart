@@ -1,7 +1,7 @@
 import { PolylineEdge, PolylineEdgeModel } from "@logicflow/core";
-import { transformShapeStyleMapping } from "../transformStyle";
+import { transformShapeStyleMapping, transformTextStyleMapping } from "../transformStyle";
 import { ArrowType } from "./ArrowType";
-import { defaultArrowType } from "../../config/edge";
+import { defaultArrowType, defaultLineWidth } from "../../config/edge";
 
 // 直角折线
 class ProPolylineEdgeModel extends PolylineEdgeModel {
@@ -9,6 +9,7 @@ class ProPolylineEdgeModel extends PolylineEdgeModel {
     super.initEdgeData(data);
     this.setProperties({
       arrowType: localStorage.getItem("LF_endArrowType") || defaultArrowType,
+      borderWidth: Number(localStorage.getItem("LF_edgeBorderWidth")) || defaultLineWidth,
     });
   }
 
@@ -16,6 +17,13 @@ class ProPolylineEdgeModel extends PolylineEdgeModel {
     const style = super.getEdgeStyle();
     const properties = this.getProperties();
     return transformShapeStyleMapping(style, properties);
+  }
+
+  getTextStyle() {
+    const style = super.getTextStyle();
+    const properties = this.getProperties();
+
+    return transformTextStyleMapping(style, properties);
   }
 }
 

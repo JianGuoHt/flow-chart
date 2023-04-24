@@ -1,9 +1,26 @@
 // @import "./iconfont/iconfont.css";
-@import "//at.alicdn.com/t/c/font_4029575_wldl9vq25if.css";
+@import "//at.alicdn.com/t/c/font_4029575_f40lcjxl29t.css";
 @import "./element-ui.scss";
 
 .diagram__view {
   * {
     box-sizing: border-box;
+  }
+}
+
+.lf-mini-map {
+  user-select: none;
+  padding: 0;
+  .lf-mini-map-header,
+  .lf-mini-map-close {
+    display: none;
+  }
+}
+
+// 自定义 popper 样式
+.el-popper {
+  margin-top: 1px !important;
+  .popper__arrow {
+    display: none !important;
   }
 }

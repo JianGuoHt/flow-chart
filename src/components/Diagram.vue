@@ -3,13 +3,14 @@
     <!-- 侧边栏 -->
     <DiagramSidebar @drag-in-node="onDragInNode" />
 
+    <!-- 顶部工具栏 -->
+    <DiagramToolbar />
+
     <!-- 主要区域 -->
     <div class="diagram__main">
-      <!-- 顶部工具栏 -->
-      <DiagramToolbar />
-
       <div class="main__content" ref="diagram"></div>
     </div>
+
     <!-- 右侧属性面板 -->
     <DiagramPropertyPanel v-if="isInit" />
   </div>
@@ -18,6 +19,8 @@
 <script>
 import LogicFlow from "@logicflow/core";
 import { SelectionSelect } from "@logicflow/extension";
+import { MiniMap } from "@logicflow/extension";
+
 import "@logicflow/extension/lib/style/index.css";
 import "@logicflow/core/dist/style/index.css";
 
@@ -69,14 +72,34 @@ export default {
     // 初始化 LogicFlow
     initLogicFlow() {
       LogicFlow.use(SelectionSelect);
+      LogicFlow.use(MiniMap);
 
       const lf = new LogicFlow({
         container: this.$refs.diagram,
         overlapMode: 1,
         autoWrap: true,
         metaKeyMultipleSelected: true,
+        // 	自定义键盘相关配置
         keyboard: {
           enabled: true,
+
+          shortcuts: [
+            // delete键 -- 删除节点
+            {
+              keys: ["del", "delete"],
+              callback: () => {
+                const { edges, nodes } = lf.getSelectElements();
+
+                edges.forEach((item) => {
+                  lf.deleteEdge(item.id);
+                });
+
+                nodes.forEach((item) => {
+                  lf.deleteNode(item.id);
+                });
+              },
+            },
+          ],
         },
         grid: {
           visible: false,
@@ -119,19 +142,19 @@ export default {
 
 <style lang="scss" scoped>
 .diagram__view {
-  display: flex;
+  position: relative;
   height: 100%;
   width: 100%;
   overflow: hidden;
 }
 
 .diagram__main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-
+  height: 100%;
+  width: 100%;
+  padding-left: 240px;
   .main__content {
-    flex: 1;
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

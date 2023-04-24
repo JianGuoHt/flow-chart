@@ -1,37 +1,40 @@
 <template>
-  <div class="diagram__sidebar">
-    <el-collapse v-model="activeCollapseNames">
-      <el-collapse-item title="General" name="general">
-        <div class="node-category-list">
-          <div
-            v-for="node in iconNodes"
-            :key="node.type"
-            class="node-item"
-            @mousedown="dragInNode(node.type)"
-          >
-            <component class="svg-node" :is="node.component" />
+  <div class="diagram__sidebar" :style="sidebarStyle">
+    <el-scrollbar style="height: 100%">
+      <el-collapse v-model="activeCollapseNames">
+        <el-collapse-item title="General" name="general">
+          <div class="node-category-list">
+            <div
+              v-for="node in iconNodes"
+              :key="node.type"
+              class="node-item"
+              @mousedown="dragInNode(node.type)"
+            >
+              <component class="svg-node" :is="node.component" />
+            </div>
           </div>
-        </div>
-      </el-collapse-item>
+        </el-collapse-item>
 
-      <el-collapse-item title="图片" name="image">
-        <div class="node-category-list">
-          <div
-            v-for="node in imageNodes"
-            :key="node.type"
-            class="node-item img-node-item"
-            @mousedown="dragInNode(node.type)"
-            :style="{
-              backgroundImage: `url(${node.url})`,
-            }"
-          ></div>
-        </div>
-      </el-collapse-item>
-    </el-collapse>
+        <el-collapse-item title="图片" name="image">
+          <div class="node-category-list">
+            <div
+              v-for="node in imageNodes"
+              :key="node.type"
+              class="node-item img-node-item"
+              @mousedown="dragInNode(node.type)"
+              :style="{
+                backgroundImage: `url(${node.url})`,
+              }"
+            ></div>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+    </el-scrollbar>
   </div>
 </template>
 
 <script>
+import { headerHeight } from "./config";
 import Circle from "./icon/Circle.vue";
 import Rect from "./icon/Rect.vue";
 import RectRadius from "./icon/RectRadius.vue";
@@ -131,6 +134,14 @@ export default {
     };
   },
 
+  computed: {
+    sidebarStyle() {
+      return {
+        paddingTop: headerHeight + "px",
+      };
+    },
+  },
+
   methods: {
     dragInNode(type) {
       console.log(111);
@@ -142,14 +153,21 @@ export default {
 
 <style lang="scss" scoped>
 .diagram__sidebar {
-  position: relative;
-  z-index: 10;
+  position: absolute;
+  z-index: 8;
+  top: 0;
+  left: 0;
   background-color: #ffffff;
   padding: 0 10px 10px 10px;
   width: 240px;
+  height: 100%;
+  user-select: none;
+
+  ::v-deep(.el-scrollbar__wrap) {
+    overflow-x: hidden;
+  }
 }
 .node-category-list {
-  border-bottom: 1px solid #e5e5e5;
 }
 .node-item {
   cursor: pointer;

@@ -67,5 +67,9 @@ export function transformTextStyleMapping(style, properties) {
     style.fontStyle = properties.fontStyle;
   }
 
+  if (properties.fontBackgroundColor) {
+    style.backgroundColor = properties.fontBackgroundColor;
+  }
+
   return style;
 }
