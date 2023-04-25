@@ -1,5 +1,5 @@
 import { BezierEdge, BezierEdgeModel } from "@logicflow/core";
-import { transformShapeStyleMapping } from "../transformStyle";
+import { transformShapeStyleMapping } from "../utils/transformStyle";
 import { ArrowType } from "./ArrowType";
 import { defaultArrowType } from "../../config/edge";
 

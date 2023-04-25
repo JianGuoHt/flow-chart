@@ -65,7 +65,6 @@ export default {
     activeLength() {
       const nodeLength = this.activeNodes.length;
       const edgesLength = this.activeEdges.length;
-      console.log("activeLength", nodeLength + edgesLength);
       return nodeLength + edgesLength;
     },
 

@@ -12,16 +12,7 @@ class CustomImageNodeModel extends ImageNode.model {
   }
 }
 
-class CustomImageNode extends ImageNode.view {
-  getImageHref() {
-    const { model } = this.props;
-    const {
-      properties: { imageHref },
-    } = model;
-
-    return imageHref;
-  }
-}
+class CustomImageNode extends ImageNode.view {}
 
 export default {
   type: "pro-custom-image",

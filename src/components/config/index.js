@@ -37,3 +37,42 @@ export const fontFamilyList = [
     value: "Times New Roman",
   },
 ];
+
+export const imageAlign = [
+  {
+    label: "居中",
+    value: "center",
+    getCoordinate(x, y, width, height) {
+      return {
+        x: x - width / 2,
+        y: y - height / 2,
+      };
+    },
+  },
+  {
+    label: "上",
+    value: "top",
+    getCoordinate(x, y, width) {
+      return {
+        x: x - width / 2,
+        y: y,
+      };
+    },
+  },
+  {
+    label: "下",
+    value: "bottom",
+    getCoordinate(x, y, width, height) {
+      return {
+        x: x - width / 2,
+        y: y - height / 2,
+      };
+    },
+  },
+  { label: "左", value: "left" },
+  { label: "右", value: "right" },
+  { label: "左上", value: "lt" },
+  { label: "右上", value: "rt" },
+  { label: "左下", value: "lb" },
+  { label: "右下", value: "rb" },
+];

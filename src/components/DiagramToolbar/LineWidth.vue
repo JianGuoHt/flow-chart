@@ -7,6 +7,7 @@
 
     <el-input-number
       v-model="lineWidth"
+      controls-position="right"
       size="small"
       :min="1"
       :max="10"

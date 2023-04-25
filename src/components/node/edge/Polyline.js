@@ -1,5 +1,5 @@
 import { PolylineEdge, PolylineEdgeModel } from "@logicflow/core";
-import { transformShapeStyleMapping, transformTextStyleMapping } from "../transformStyle";
+import { transformShapeStyleMapping, transformTextStyleMapping } from "../utils/transformStyle";
 import { ArrowType } from "./ArrowType";
 import { defaultArrowType, defaultLineWidth } from "../../config/edge";
 

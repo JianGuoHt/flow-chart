@@ -1,6 +1,7 @@
 import { h } from "@logicflow/core";
 import { RectResize } from "@logicflow/extension";
-import { transformShapeStyleMapping } from "../transformStyle";
+import { transformShapeStyleMapping } from "../utils/transformStyle";
+import { getShapeImage } from "../utils/shapeImage";
 
 // 平行四边形
 class ParallelogramNodeModel extends RectResize.model {
@@ -38,7 +39,8 @@ class ParallelogramNodeView extends RectResize.view {
       height,
       points: points.join(" "),
     };
-    return h("g", {}, [h("polygon", { ...attrs })]);
+    const doms = [h("polygon", { ...attrs })];
+    return h("g", {}, getShapeImage(doms, this.props));
   }
 }
 

@@ -42,7 +42,12 @@
           ></el-color-picker>
         </el-form-item>
         <el-form-item label="线条宽度">
-          <el-input-number v-model="form.borderWidth" @change="setStyle"></el-input-number>
+          <el-input-number
+            v-model="form.borderWidth"
+            controls-position="right"
+            :min="0"
+            @change="setStyle"
+          ></el-input-number>
         </el-form-item>
         <el-form-item label="置顶">
           <el-button size="small" @click="setZIndex('top')">置顶</el-button>
@@ -64,11 +69,18 @@
           ></el-color-picker>
         </el-form-item>
         <el-form-item label="文字大小">
-          <el-input-number v-model="form.fontSize" @change="setStyle"></el-input-number>
+          <el-input-number
+            v-model="form.fontSize"
+            controls-position="right"
+            :min="0"
+            @change="setStyle"
+          ></el-input-number>
         </el-form-item>
         <el-form-item label="文字行高">
           <el-input-number
             v-model="form.lineHeight"
+            controls-position="right"
+            :min="0"
             :step="0.1"
             @change="setStyle"
           ></el-input-number>
@@ -108,6 +120,44 @@
       <el-collapse-item v-if="imageCollapseShow" title="图片" name="image">
         <el-form-item label="图片地址">
           <el-input v-model="form.imageHref" placeholder="请输入内容" @change="setStyle"></el-input>
+        </el-form-item>
+        <el-form-item label="宽度">
+          <el-input-number
+            v-model="form.imageWidth"
+            controls-position="right"
+            :min="0"
+            placeholder="自适应"
+            @change="setStyle"
+          ></el-input-number>
+        </el-form-item>
+        <el-form-item label="高度">
+          <el-input-number
+            v-model="form.imageHeight"
+            controls-position="right"
+            :min="0"
+            placeholder="自适应"
+            @change="setStyle"
+          ></el-input-number>
+        </el-form-item>
+        <el-form-item label="对齐方式">
+          <el-select v-model="form.imageAlign" @change="setStyle">
+            <el-option
+              v-for="lineType in LineTypes"
+              :key="lineType.value"
+              :value="lineType.value"
+              :label="lineType.label"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="下层">
+          <el-switch
+            v-model="form.imageZIndex"
+            active-value="bottom"
+            inactive-value="top"
+            @change="setStyle"
+          >
+          </el-switch>
         </el-form-item>
       </el-collapse-item>
     </el-form>
@@ -168,6 +218,12 @@ export default {
         lineType: defaultEdgeType,
         // 图片地址
         imageHref: "",
+        // 图片层级
+        imageZIndex: "",
+        // 图片宽度
+        imageWidth: undefined,
+        // 图片高度
+        imageHeight: undefined,
       },
 
       // ! 不要更改该属性 !
@@ -237,6 +293,7 @@ export default {
     // 调整样式
     setStyle() {
       this.edgeAndNode.forEach((item) => {
+        console.log(this.form);
         this.lf.setProperties(item.id, this.form);
       });
     },

@@ -1,6 +1,7 @@
 import { h } from "@logicflow/core";
 import { RectResize } from "@logicflow/extension";
-import { transformShapeStyleMapping } from "../transformStyle";
+import { transformShapeStyleMapping } from "../utils/transformStyle";
+import { getShapeImage } from "../utils/shapeImage";
 
 class TriangleNodeModel extends RectResize.model {
   getNodeStyle() {
@@ -32,7 +33,10 @@ class TriangleNodeView extends RectResize.view {
         [x + width / 2, y],
       ],
     };
-    return h("g", {}, [h("polygon", { ...attrs })]);
+
+    const doms = [h("polygon", { ...attrs })];
+
+    return h("g", {}, getShapeImage(doms, this.props));
   }
 }
 

@@ -1,5 +1,7 @@
+import { h } from "@logicflow/core";
 import { DiamondResize } from "@logicflow/extension";
-import { transformShapeStyleMapping } from "../transformStyle";
+import { transformShapeStyleMapping } from "../utils/transformStyle";
+import { getShapeImage } from "../utils/shapeImage";
 
 // 菱形
 class DiamondNodeModel extends DiamondResize.model {
@@ -16,8 +18,26 @@ class DiamondNodeModel extends DiamondResize.model {
   }
 }
 
+class DiamondNodeView extends DiamondResize.view {
+  getResizeShape() {
+    const { model } = this.props;
+    const { x, y, points } = model;
+    const style = model.getNodeStyle();
+
+    const attrs = {
+      x: x,
+      y: y,
+      points,
+      ...style,
+    };
+    const doms = [h("polygon", { ...attrs })];
+
+    return h("g", {}, getShapeImage(doms, this.props));
+  }
+}
+
 export default {
   type: "pro-diamond",
-  view: DiamondResize.view,
+  view: DiamondNodeView,
   model: DiamondNodeModel,
 };

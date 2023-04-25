@@ -1,5 +1,7 @@
+import { h } from "@logicflow/core";
 import { EllipseResize } from "@logicflow/extension";
-import { transformShapeStyleMapping, transformTextStyleMapping } from "../transformStyle";
+import { transformShapeStyleMapping, transformTextStyleMapping } from "../utils/transformStyle";
+import { getShapeImage } from "../utils/shapeImage";
 
 class CircleNodeModel extends EllipseResize.model {
   initNodeData(data) {
@@ -22,8 +24,30 @@ class CircleNodeModel extends EllipseResize.model {
   }
 }
 
+class CircleNodeView extends EllipseResize.view {
+  getResizeShape() {
+    const { model } = this.props;
+    const { x, y, rx, ry } = model;
+    const style = model.getNodeStyle();
+
+    const attrs = {
+      x: x,
+      y: y,
+      cx: x,
+      cy: y,
+      rx,
+      ry,
+      ...style,
+    };
+
+    const doms = [h("ellipse", { ...attrs })];
+
+    return h("g", {}, getShapeImage(doms, this.props));
+  }
+}
+
 export default {
   type: "pro-circle",
-  view: EllipseResize.view,
+  view: CircleNodeView,
   model: CircleNodeModel,
 };

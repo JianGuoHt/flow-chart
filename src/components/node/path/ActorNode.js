@@ -1,6 +1,7 @@
 import { h } from "@logicflow/core";
 import { RectResize } from "@logicflow/extension";
-import { transformShapeStyleMapping } from "../transformStyle";
+import { transformShapeStyleMapping } from "../utils/transformStyle";
+import { getShapeImage } from "../utils/shapeImage";
 // 人物
 class ActorNodeModel extends RectResize.model {
   initNodeData(data) {
@@ -60,7 +61,7 @@ class ActorNodeView extends RectResize.view {
       height,
       style: "fill: transparent",
     };
-    return h("g", {}, [
+    const doms = [
       h("ellipse", {
         ...ellipseAttrs,
       }),
@@ -79,7 +80,8 @@ class ActorNodeView extends RectResize.view {
       h("rect", {
         ...bgAttrs,
       }),
-    ]);
+    ];
+    return h("g", {}, getShapeImage(doms, this.props));
   }
 }
 

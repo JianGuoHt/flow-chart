@@ -1,5 +1,6 @@
 import { h } from "@logicflow/core";
 import RectNode from "../basic/RectNode";
+import { getShapeImage } from "../utils/shapeImage";
 
 // 图片-基础节点
 class ImageModel extends RectNode.model {
@@ -11,23 +12,8 @@ class ImageModel extends RectNode.model {
 }
 
 class ImageNode extends RectNode.view {
-  getImageHref() {
-    return;
-  }
-
   getResizeShape() {
-    const { x, y, width, height } = this.props.model;
-    const href = this.getImageHref();
-    const attrs = {
-      x: x - (1 / 2) * width,
-      y: y - (1 / 2) * height,
-      width,
-      height,
-      href,
-      // 根据宽高缩放
-      preserveAspectRatio: "none meet",
-    };
-    return h("g", {}, [h("image", { ...attrs })]);
+    return h("g", {}, getShapeImage([], this.props));
   }
 }
 

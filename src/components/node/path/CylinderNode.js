@@ -1,6 +1,7 @@
 import { h } from "@logicflow/core";
 import { RectResize } from "@logicflow/extension";
-import { transformShapeStyleMapping } from "../transformStyle";
+import { transformShapeStyleMapping } from "../utils/transformStyle";
+import { getShapeImage } from "../utils/shapeImage";
 
 // 圆柱体
 class CylinderNodeModel extends RectResize.model {
@@ -64,7 +65,7 @@ class CylinderNodeView extends RectResize.view {
       height: (2 / 3) * height,
       stroke: "transparent",
     };
-    return h("g", {}, [
+    const doms = [
       h("ellipse", {
         ...ellipseBAttrs,
       }),
@@ -80,7 +81,9 @@ class CylinderNodeView extends RectResize.view {
       h("ellipse", {
         ...ellipseAAttrs,
       }),
-    ]);
+    ];
+
+    return h("g", {}, getShapeImage(doms, this.props));
   }
 }
 

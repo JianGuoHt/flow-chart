@@ -36,3 +36,43 @@ export function mergeDeep(target, ...sources) {
   }
   return mergeDeep(target, ...sources);
 }
+
+/**
+ *
+ * This JavaScript function returns the file extension of a given file name.
+ * @param {string} fileName
+ * @returns {string}
+ */
+export function getFileExtension(fileName = "") {
+  const lastIndex = fileName.lastIndexOf(".");
+  const ext = fileName.substring(lastIndex + 1);
+  return ext;
+}
+
+/**
+ * This function creates a hidden file input element, allows the user to select a file, and returns a
+ * promise that resolves with the selected file.
+ * @returns A Promise object is being returned.
+ */
+export function createFileInput(fileAttr = { accept: "" }) {
+  return new Promise((resolve) => {
+    let file = document.createElement("input");
+    file.setAttribute("type", "file");
+    file.setAttribute("accept", fileAttr.accept);
+
+    file.style.display = "none";
+    document.body.appendChild(file);
+
+    file.click();
+
+    file.onchange = function () {
+      const fileList = file.files;
+      document.body.removeChild(file);
+      file = undefined;
+
+      resolve({
+        fileList,
+      });
+    };
+  });
+}

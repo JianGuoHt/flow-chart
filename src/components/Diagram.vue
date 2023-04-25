@@ -18,8 +18,7 @@
 
 <script>
 import LogicFlow from "@logicflow/core";
-import { SelectionSelect } from "@logicflow/extension";
-import { MiniMap } from "@logicflow/extension";
+import { SelectionSelect, MiniMap, Snapshot } from "@logicflow/extension";
 
 import "@logicflow/extension/lib/style/index.css";
 import "@logicflow/core/dist/style/index.css";
@@ -73,6 +72,7 @@ export default {
     initLogicFlow() {
       LogicFlow.use(SelectionSelect);
       LogicFlow.use(MiniMap);
+      LogicFlow.use(Snapshot);
 
       const lf = new LogicFlow({
         container: this.$refs.diagram,

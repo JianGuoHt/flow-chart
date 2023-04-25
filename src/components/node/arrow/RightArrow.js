@@ -1,5 +1,6 @@
 import { h } from "@logicflow/core";
 import RectNode from "../basic/RectNode";
+import { getShapeImage } from "../utils/shapeImage";
 
 // 右箭头
 
@@ -35,8 +36,8 @@ class RightArrowNodeView extends RectNode.view {
         [leftX, y - (1 / 2) * ArrowHeight],
       ],
     };
-
-    return h("g", {}, [h("polygon", { ...attrs })]);
+    const doms = [h("polygon", { ...attrs })];
+    return h("g", {}, getShapeImage(doms, this.props));
   }
 }
 
