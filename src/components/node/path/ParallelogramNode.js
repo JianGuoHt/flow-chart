@@ -1,6 +1,6 @@
 import { h } from "@logicflow/core";
 import { RectResize } from "@logicflow/extension";
-import { transformShapeStyleMapping } from "../utils/transformStyle";
+import { transformShapeStyleMapping, transformTextStyleMapping } from "../utils/transformStyle";
 import { getShapeImage } from "../utils/shapeImage";
 
 // 平行四边形
@@ -15,6 +15,12 @@ class ParallelogramNodeModel extends RectResize.model {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
     return transformShapeStyleMapping(style, properties);
+  }
+
+  getTextStyle() {
+    const style = super.getTextStyle();
+    const properties = this.getProperties();
+    return transformTextStyleMapping(style, properties);
   }
 }
 

@@ -121,44 +121,47 @@
         <el-form-item label="图片地址">
           <el-input v-model="form.imageHref" placeholder="请输入内容" @change="setStyle"></el-input>
         </el-form-item>
-        <el-form-item label="宽度">
-          <el-input-number
-            v-model="form.imageWidth"
-            controls-position="right"
-            :min="0"
-            placeholder="自适应"
-            @change="setStyle"
-          ></el-input-number>
-        </el-form-item>
-        <el-form-item label="高度">
-          <el-input-number
-            v-model="form.imageHeight"
-            controls-position="right"
-            :min="0"
-            placeholder="自适应"
-            @change="setStyle"
-          ></el-input-number>
-        </el-form-item>
-        <el-form-item label="对齐方式">
-          <el-select v-model="form.imageAlign" @change="setStyle">
-            <el-option
-              v-for="lineType in LineTypes"
-              :key="lineType.value"
-              :value="lineType.value"
-              :label="lineType.label"
+
+        <div v-show="shapeImageShow">
+          <el-form-item label="宽度">
+            <el-input-number
+              v-model="form.imageWidth"
+              controls-position="right"
+              :min="0"
+              placeholder="自适应"
+              @change="setStyle"
+            ></el-input-number>
+          </el-form-item>
+          <el-form-item label="高度">
+            <el-input-number
+              v-model="form.imageHeight"
+              controls-position="right"
+              :min="0"
+              placeholder="自适应"
+              @change="setStyle"
+            ></el-input-number>
+          </el-form-item>
+          <el-form-item label="对齐方式">
+            <el-select v-model="form.imageAlign" @change="setStyle">
+              <el-option
+                v-for="lineType in LineTypes"
+                :key="lineType.value"
+                :value="lineType.value"
+                :label="lineType.label"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="下层">
+            <el-switch
+              v-model="form.imageZIndex"
+              active-value="bottom"
+              inactive-value="top"
+              @change="setStyle"
             >
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="下层">
-          <el-switch
-            v-model="form.imageZIndex"
-            active-value="bottom"
-            inactive-value="top"
-            @change="setStyle"
-          >
-          </el-switch>
-        </el-form-item>
+            </el-switch>
+          </el-form-item>
+        </div>
       </el-collapse-item>
     </el-form>
   </div>
@@ -237,9 +240,40 @@ export default {
       return [].concat(this.activeEdges, this.activeNodes);
     },
 
+    firstActive() {
+      return this.edgeAndNode[0];
+    },
+
+    // 是否显示图片样式调整栏
+    // 条件：
+    // 1: 仅选中一个节点，且选中的节点类型不为 pro-image
     imageCollapseShow() {
       const length = this.edgeAndNode.length;
-      return length === 1 && !this.edgeAndNode[0].type.includes("pro-image");
+      return length === 1 && !this.firstActive.type.includes("pro-image");
+    },
+
+    // 是否显示仅针对形状对应的图片的修改选项
+    shapeImageShow() {
+      const type = this.firstActive.type;
+      // 黑名单规则
+      const blackTypeRules = [
+        () => {
+          return type.includes("pro-image");
+        },
+        () => {
+          const blackTypes = ["pro-custom-image"];
+          return blackTypes.includes(type);
+        },
+      ];
+
+      for (let i = 0; i < blackTypeRules.length; i++) {
+        const rule = blackTypeRules[i];
+
+        if (rule()) {
+          return false;
+        }
+      }
+      return true;
     },
   },
 
@@ -293,8 +327,20 @@ export default {
     // 调整样式
     setStyle() {
       this.edgeAndNode.forEach((item) => {
-        console.log(this.form);
+        // 应为有些节点默认属性是根据值类型为 undefined 去判断的
+        // 但是setProperties 遇到值为undefined的属性，设置不生效
+        // 所以使用 deleteProperty 删除属性
         this.lf.setProperties(item.id, this.form);
+
+        for (const key in this.form) {
+          if (Object.hasOwnProperty.call(this.form, key)) {
+            const value = this.form[key];
+
+            if (typeof value === "undefined") {
+              this.lf.deleteProperty(item.id, key);
+            }
+          }
+        }
       });
     },
 

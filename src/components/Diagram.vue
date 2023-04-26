@@ -33,6 +33,8 @@ import { defaultEdgeType } from "./config";
 
 import { registerCustomElement } from "./node";
 
+import { setupMenu } from "./plugins/menu";
+
 export default {
   name: "Diagram",
 
@@ -75,6 +77,7 @@ export default {
       LogicFlow.use(Snapshot);
 
       const lf = new LogicFlow({
+        plugins: [setupMenu()],
         container: this.$refs.diagram,
         overlapMode: 1,
         autoWrap: true,

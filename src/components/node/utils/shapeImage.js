@@ -1,6 +1,6 @@
 import { h } from "@logicflow/core";
 
-export function getShapeImage(doms, props) {
+export function getShapeImage(doms, props, callback = () => {}) {
   const { model } = props;
   const {
     x,
@@ -14,8 +14,9 @@ export function getShapeImage(doms, props) {
   if (imageHref) {
     const defaultWidth = width;
     const defaultHeight = height;
-
+    const style = model.getNodeStyle();
     const imgAttrs = {
+      ...style,
       x: x - width / 2,
       y: y - height / 2,
 
@@ -32,6 +33,8 @@ export function getShapeImage(doms, props) {
     } else {
       doms.push(imgDom);
     }
+
+    callback();
   }
 
   return doms;

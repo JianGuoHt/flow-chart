@@ -17,6 +17,23 @@
   }
 }
 
+.lf-menu {
+  box-shadow: 0 2px 4px #dad7d7;
+  padding: 5px 0;
+  .lf-menu-item {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.85);
+    padding: 5px 12px;
+    transition: all 0.3s;
+    background-color: #fff;
+    line-height: 22px;
+    white-space: nowrap;
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  }
+}
+
 // 自定义 popper 样式
 .el-popper {
   margin-top: 1px !important;

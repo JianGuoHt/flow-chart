@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { h } from "@logicflow/core";
 import { RectResize } from "@logicflow/extension";
-import { transformShapeStyleMapping } from "../utils/transformStyle";
+import { transformShapeStyleMapping, transformTextStyleMapping } from "../utils/transformStyle";
 import { getShapeImage } from "../utils/shapeImage";
 
 class RectNodeModel extends RectResize.model {
@@ -9,6 +9,22 @@ class RectNodeModel extends RectResize.model {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
     return transformShapeStyleMapping(style, properties);
+  }
+
+  getTextStyle() {
+    const style = super.getTextStyle();
+    const properties = this.getProperties();
+
+    return transformTextStyleMapping(style, properties);
+  }
+
+  // 设置调整边框样式
+  getResizeOutlineStyle() {
+    return {
+      stroke: "#000000",
+      strokeWidth: 1,
+      strokeDasharray: "3,3",
+    };
   }
 }
 

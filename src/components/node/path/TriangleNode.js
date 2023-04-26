@@ -1,6 +1,6 @@
 import { h } from "@logicflow/core";
 import { RectResize } from "@logicflow/extension";
-import { transformShapeStyleMapping } from "../utils/transformStyle";
+import { transformShapeStyleMapping, transformTextStyleMapping } from "../utils/transformStyle";
 import { getShapeImage } from "../utils/shapeImage";
 
 class TriangleNodeModel extends RectResize.model {
@@ -12,7 +12,8 @@ class TriangleNodeModel extends RectResize.model {
 
   getTextStyle() {
     const style = super.getTextStyle();
-    return style;
+    const properties = this.getProperties();
+    return transformTextStyleMapping(style, properties);
   }
 }
 

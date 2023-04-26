@@ -1,8 +1,8 @@
 import { BaseNode, BaseNodeModel } from "@logicflow/core";
 
-class BaseNewNode extends BaseNode {}
-
 class BaseNewModel extends BaseNodeModel {}
+
+class BaseNewNode extends BaseNode {}
 
 export default {
   type: "pro-base-node",
