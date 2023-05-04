@@ -12,6 +12,7 @@
         <LineWidth />
         <ArrowType />
         <MiniMap />
+        <Transform />
       </div>
       <div class="flex"></div>
     </div>
@@ -28,9 +29,20 @@ import MiniMap from "./MiniMap.vue";
 import SelectionSelect from "./SelectionSelect.vue";
 import Save from "./Save.vue";
 import FileMore from "./FileMore.vue";
+import Transform from "./Transform.vue";
 
 export default {
-  components: { Logo, LineType, SelectionSelect, ArrowType, MiniMap, LineWidth, Save, FileMore },
+  components: {
+    Logo,
+    LineType,
+    SelectionSelect,
+    ArrowType,
+    MiniMap,
+    LineWidth,
+    Save,
+    FileMore,
+    Transform,
+  },
 
   data() {
     return {};

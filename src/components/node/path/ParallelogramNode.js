@@ -22,6 +22,15 @@ class ParallelogramNodeModel extends RectResize.model {
     const properties = this.getProperties();
     return transformTextStyleMapping(style, properties);
   }
+
+  // 设置调整边框样式
+  getResizeOutlineStyle() {
+    return {
+      stroke: "#000000",
+      strokeWidth: 1,
+      strokeDasharray: "3,3",
+    };
+  }
 }
 
 class ParallelogramNodeView extends RectResize.view {

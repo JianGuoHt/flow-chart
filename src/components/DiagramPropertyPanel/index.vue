@@ -5,15 +5,16 @@
     :style="panelStyle"
   >
     <el-tabs v-model="activeTabName">
-      <el-tab-pane v-if="drawingTabPaneShow" label="图纸" name="drawing">
+      <!-- <el-tab-pane v-if="drawingTabPaneShow" label="图纸" name="drawing">
         <el-scrollbar style="height: 100%">
           <el-collapse v-model="drawingActiveCollapseNames">
             <DrawingCollapseItem />
           </el-collapse>
         </el-scrollbar>
-      </el-tab-pane>
+      </el-tab-pane> -->
 
-      <el-tab-pane v-if="styleTabPaneShow" label="外观" name="style">
+      <!-- v-if="styleTabPaneShow" -->
+      <el-tab-pane label="外观" name="style">
         <el-scrollbar style="height: 100%">
           <el-collapse v-model="styleActiveCollapseNames">
             <StyleCollapseItem
@@ -31,7 +32,7 @@
 <script>
 import { headerHeight } from "../config";
 import lf from "../mixin/lf";
-import DrawingCollapseItem from "./DrawingCollapseItem.vue";
+// import DrawingCollapseItem from "./DrawingCollapseItem.vue";
 import StyleCollapseItem from "./StyleCollapseItem.vue";
 
 export default {
@@ -39,7 +40,10 @@ export default {
 
   mixins: [lf],
 
-  components: { StyleCollapseItem, DrawingCollapseItem },
+  components: {
+    StyleCollapseItem,
+    // DrawingCollapseItem
+  },
 
   data() {
     return {
@@ -116,8 +120,8 @@ export default {
   --width: 230px;
   position: absolute;
   top: 0;
-  // right: calc(var(--width) * -1);
-  right: 0;
+  right: calc(var(--width) * -1);
+  // right: 0;
   z-index: 8;
   width: var(--width);
   height: 100%;

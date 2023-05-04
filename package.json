@@ -11,6 +11,7 @@
     "@logicflow/core": "^1.2.3",
     "@logicflow/extension": "^1.2.3",
     "core-js": "^3.8.3",
+    "decimal.js": "^10.4.3",
     "element-ui": "^2.15.13",
     "file-saver": "^2.0.5",
     "lodash-es": "^4.17.21",

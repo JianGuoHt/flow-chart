@@ -144,7 +144,6 @@ export default {
 
   methods: {
     dragInNode(type) {
-      console.log(111);
       this.$emit("drag-in-node", type);
     },
   },

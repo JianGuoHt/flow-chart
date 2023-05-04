@@ -1,18 +1,27 @@
 <template>
   <div class="diagram__view">
-    <!-- 侧边栏 -->
-    <DiagramSidebar @drag-in-node="onDragInNode" />
+    <template v-if="isInit">
+      <!-- 侧边栏 -->
+      <DiagramSidebar @drag-in-node="onDragInNode" />
 
-    <!-- 顶部工具栏 -->
-    <DiagramToolbar />
+      <!-- 顶部工具栏 -->
+      <DiagramToolbar />
+
+      <!-- 右侧属性面板 -->
+      <DiagramPropertyPanel />
+    </template>
 
     <!-- 主要区域 -->
     <div class="diagram__main">
       <div class="main__content" ref="diagram"></div>
     </div>
 
-    <!-- 右侧属性面板 -->
-    <DiagramPropertyPanel v-if="isInit" />
+    <transition name="el-fade-in-linear">
+      <div v-if="!isInit" class="diagram__loading">
+        <img src="./assets/images/logo.png" height="150" alt="" />
+        <p>Loading ...</p>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -33,7 +42,7 @@ import { defaultEdgeType } from "./config";
 
 import { registerCustomElement } from "./node";
 
-import { setupMenu } from "./plugins/menu";
+import { RightClickMenu } from "./plugins/RightClickMenu";
 
 export default {
   name: "Diagram",
@@ -72,12 +81,14 @@ export default {
   methods: {
     // 初始化 LogicFlow
     initLogicFlow() {
-      LogicFlow.use(SelectionSelect);
-      LogicFlow.use(MiniMap);
-      LogicFlow.use(Snapshot);
-
       const lf = new LogicFlow({
-        plugins: [setupMenu()],
+        plugins: [
+          SelectionSelect,
+          MiniMap,
+          Snapshot,
+          // 右键菜单
+          RightClickMenu,
+        ],
         container: this.$refs.diagram,
         overlapMode: 1,
         autoWrap: true,
@@ -121,6 +132,10 @@ export default {
         baseNode: { strokeWidth: 1 },
         nodeText: { overflowMode: "autoWrap", lineHeight: 1.5, fontSize: 12 },
         edgeText: { overflowMode: "autoWrap", lineHeight: 1.5, fontSize: 12 },
+        snapline: {
+          stroke: "#1890ff", // 对齐线颜色
+          strokeWidth: 1, // 对齐线宽度
+        },
       });
 
       // 注册自定义形状
@@ -131,7 +146,9 @@ export default {
       // 设置默认 edge
       lf.setDefaultEdgeType(defaultEdgeType);
 
-      this.lf = lf;
+      setTimeout(() => {
+        this.lf = lf;
+      }, 100);
     },
 
     onDragInNode(type) {
@@ -158,6 +175,23 @@ export default {
   .main__content {
     height: 100%;
     width: 100%;
+  }
+}
+
+.diagram__loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  > p {
+    letter-spacing: 8px;
+    margin-top: 20px;
   }
 }
 </style>

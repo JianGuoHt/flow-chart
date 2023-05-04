@@ -1,12 +1,12 @@
 <template>
   <div class="fl__logo_view">
-    <img class="fl__logo" src="../assets/images/logo.png" alt="" srcset="" />
+    <img class="fl__logo" src="../assets/images/logo.png" width="74" alt="" srcset="" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .fl__logo_view {
-  height: 100%;
+  // height: 100%;
   padding: 0 10px;
   margin-right: 10px;
   .fl__logo {
