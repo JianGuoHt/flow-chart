@@ -18,6 +18,9 @@
 </template>
 
 <script>
+import ProGroup from "@/components/node/group/ProGroup";
+// import { max, min } from "lodash-es";
+import { getNodeOutline, getEdgeOutline } from "../../algorithm/outline";
 export default {
   data() {
     return {
@@ -74,7 +77,6 @@ export default {
       this.setDefaultNodeMenu();
       this.lf.on("node:contextmenu", ({ data, position }) => {
         this.show = true;
-        console.log(data, position);
         this.x = position.domOverlayPosition.x;
         this.y = position.domOverlayPosition.y;
         this.activeMenu = this.nodeMenu;
@@ -189,7 +191,56 @@ export default {
       const lf = this.lf;
       this.selectionMenu = [
         {
-          text: "删除",
+          text: "组合",
+          callback: (elements) => {
+            const { selectElements } = lf.graphModel;
+            if (selectElements.size <= 1) return;
+            let x = Number.MAX_SAFE_INTEGER;
+            let y = Number.MAX_SAFE_INTEGER;
+            let x1 = Number.MIN_SAFE_INTEGER;
+            let y1 = Number.MIN_SAFE_INTEGER;
+
+            selectElements.forEach((element) => {
+              let outline = {
+                x: 0,
+                y: 0,
+                x1: 0,
+                y1: 0,
+              };
+              if (element.BaseType === "node") outline = getNodeOutline(element);
+              if (element.BaseType === "edge") outline = getEdgeOutline(element);
+              x = Math.min(x, outline.x);
+              y = Math.min(y, outline.y);
+              x1 = Math.max(x1, outline.x1);
+              y1 = Math.max(y1, outline.y1);
+            });
+
+            const offset = 20;
+            const width = x1 - x + offset * 2;
+            const height = y1 - y + offset * 2;
+
+            const group = lf.addNode({
+              type: ProGroup.type,
+              x: x - offset + width / 2,
+              y: y - offset + height / 2,
+              // 默认样式
+              properties: {
+                width,
+                height,
+                backgroundColor: "#fff",
+                borderStyle: "dashed",
+              },
+            });
+
+            // 仅需要将 node 添加至 group
+            elements.nodes.forEach((node) => group.addChild(node.id));
+
+            // 取消选中
+            lf.clearSelectElements();
+          },
+        },
+        {
+          text: "删除1",
           callback: (elements) => {
             lf.clearSelectElements();
             elements.edges.forEach((edge) => lf.deleteEdge(edge.id));

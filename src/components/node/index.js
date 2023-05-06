@@ -18,6 +18,7 @@ import UpArrowNode from "./arrow/UpArrowNode";
 import VerticalArrowNode from "./arrow/VerticalArrowNode";
 import UserImageNode from "./image/UserImageNode";
 import CustomImageNode from "./image/CustomImageNode";
+import ProGroupModel from "./group/ProGroup";
 
 /**
  *
@@ -40,6 +41,9 @@ export const registerCustomElement = (lf) => {
   lf.register(RightArrow);
   lf.register(UpArrowNode);
   lf.register(VerticalArrowNode);
+
+  // 分组
+  lf.register(ProGroupModel);
 
   // 边
   lf.register(Line);

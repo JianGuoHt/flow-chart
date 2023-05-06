@@ -27,7 +27,7 @@
 
 <script>
 import LogicFlow from "@logicflow/core";
-import { SelectionSelect, MiniMap, Snapshot } from "@logicflow/extension";
+import { SelectionSelect, MiniMap, Snapshot, Group } from "@logicflow/extension";
 
 import "@logicflow/extension/lib/style/index.css";
 import "@logicflow/core/dist/style/index.css";
@@ -86,6 +86,7 @@ export default {
           SelectionSelect,
           MiniMap,
           Snapshot,
+          Group,
           // 右键菜单
           RightClickMenu,
         ],
