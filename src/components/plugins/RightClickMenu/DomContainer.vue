@@ -2,12 +2,16 @@
   <transition name="el-fade-in-linear">
     <div v-show="show" class="lf-right-click-menu" :style="{ ...positionStyle }">
       <ul>
-        <template v-for="(menuItem, menuIndex) in activeMenu">
+        <template v-for="(menuItem, menuIndex) in activeMenuTransform">
           <li :key="menuIndex" class="lf-right-click-menu-item" @click="onMenuItemClick(menuItem)">
             {{ menuItem.text }}
           </li>
           <li
-            v-show="menuItem.type && menuItem.type === 'divider'"
+            v-show="
+              menuItem.type &&
+              menuItem.type === 'divider' &&
+              typeof activeMenuTransform[menuIndex + 1] !== 'undefined'
+            "
             :key="'divider' + menuIndex"
             class="lf-right-click-menu-divider"
           ></li>
@@ -48,6 +52,9 @@ export default {
         top: this.y + "px",
         left: this.x + "px",
       };
+    },
+    activeMenuTransform() {
+      return this.activeMenu.filter((item) => !item.show || item.show(this.currentData));
     },
   },
 
@@ -162,6 +169,21 @@ export default {
           callback: (node) => {
             lf.cloneNode(node.id);
           },
+          type: "divider",
+        },
+        {
+          text: "解除组合",
+          callback: (groupNode) => {
+            const groupModel = lf.getModelById(groupNode.id);
+            groupNode.children.forEach((id) => {
+              groupModel.removeChild(id);
+              lf.graphModel.group.nodeGroupMap.delete(id);
+            });
+            lf.deleteNode(groupNode.id);
+          },
+          show(node) {
+            return node.type === ProGroup.type;
+          },
         },
       ];
     },
@@ -195,6 +217,13 @@ export default {
           callback: (elements) => {
             const { selectElements } = lf.graphModel;
             if (selectElements.size <= 1) return;
+
+            const groupNodes = Array.from(selectElements).filter((item) => item[1].isGroup);
+            if (groupNodes && groupNodes.length > 0) {
+              this.$message.warning("无法对组合在进行组合");
+              return;
+            }
+
             let x = Number.MAX_SAFE_INTEGER;
             let y = Number.MAX_SAFE_INTEGER;
             let x1 = Number.MIN_SAFE_INTEGER;
@@ -233,14 +262,25 @@ export default {
             });
 
             // 仅需要将 node 添加至 group
-            elements.nodes.forEach((node) => group.addChild(node.id));
-
+            elements.nodes.forEach((node) => {
+              group.addChild(node.id);
+              /**
+               * FIXME: appendNodeToGroup 内部方法；（等待官方后续更新后、调整该方法；）
+               * 因为：
+               *  group.addChild 只会添加关系，不会自动将节点移动到分组里面。(lf.graphModel.group.nodeGroupMap 中没有数据)
+               *  但是框选节点时，框选组件内部会判断 lf.graphModel.group.nodeGroupMap 中的数据
+               *  所以框选了分组里面的节点，拖动框选内容时 分组内部节点位置错误
+               * 所以:
+               *  此处使用 组件内部方法 手动添加节点到分组里面（lf.graphModel.group.nodeGroupMap）
+               */
+              lf.graphModel.group.appendNodeToGroup({ data: node });
+            });
             // 取消选中
             lf.clearSelectElements();
           },
         },
         {
-          text: "删除1",
+          text: "删除",
           callback: (elements) => {
             lf.clearSelectElements();
             elements.edges.forEach((edge) => lf.deleteEdge(edge.id));

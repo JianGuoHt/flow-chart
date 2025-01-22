@@ -9,7 +9,7 @@
 
       <el-dropdown-item command="exportJson" divided>下载为json文件</el-dropdown-item>
       <!-- FIXME: 数据转换错误，暂时隐藏，待修复 -->
-      <!-- <el-dropdown-item command="exportXml">下载为xml文件</el-dropdown-item> -->
+      <el-dropdown-item command="exportXml">下载为xml文件</el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       // FIXME: xml数据转换错误
-      whiteExt: ["json"], //"xml"
+      whiteExt: ["json", "xml"], //"xml"
     };
   },
 

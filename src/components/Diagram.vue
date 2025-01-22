@@ -142,6 +142,10 @@ export default {
       // 注册自定义形状
       registerCustomElement(lf);
 
+      lf.on("history:change", ({ data }) => {
+        console.log(data);
+      });
+
       lf.render();
 
       // 设置默认 edge

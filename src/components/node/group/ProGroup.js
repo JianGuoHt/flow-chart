@@ -4,7 +4,7 @@ import { transformShapeStyleMapping } from "../utils/transformStyle";
 class ProGroupModel extends GroupNode.model {
   initNodeData(data) {
     super.initNodeData(data);
-    const { width, height, foldedWidth, foldedHeight } = this.properties;
+    const { width = 500, height = 300, foldedWidth = 50, foldedHeight = 50 } = this.properties;
     this.isRestrict = true;
     this.resizable = true;
     this.foldable = true;
